@@ -1,0 +1,58 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+venv/
+ENV/
+
+.venv/
+*.sqlite3
+*.db
+instance/
+*.log
+
+# ---- FastAPI ----
+*.egg-info/
+*.dist-info/
+
+# ---- Node / React ----
+node_modules/
+build/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- Environment Variables ----
+.env
+.env.*
+setu-env/
+# ---- IDEs ----
+# VS Code
+.vscode/
+.history/
+
+# JetBrains (PyCharm, WebStorm, etc.)
+.idea/
+
+# ---- OS / Misc ----
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+*.orig
+*.log
+
+# ---- Testing ----
+coverage/
+htmlcov/
+.pytest_cache/
+
+# ---- Others ----
+*.pem
+*.crt
+*.key
