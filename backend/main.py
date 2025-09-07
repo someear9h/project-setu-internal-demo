@@ -53,7 +53,9 @@ app.openapi = custom_openapi
 
 
 # ================= HEALTH CHECK =================
-@app.get("/backend/v1.0", tags=["Health Check"])
+API_PREFIX = "/project-setu-internal-dem/backend/v1.0"
+
+@app.get(f"{API_PREFIX}/", tags=["Health Check"])
 def choreo_health_check():
     return {"status": "ok", "message": "Ayush FHIR Coder is running"}
 
