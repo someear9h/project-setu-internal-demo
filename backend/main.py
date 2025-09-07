@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os, csv
-from .core.config import settings
-from .db.database import create_tables
+from core.config import settings
+from db.database import create_tables
 from fastapi.openapi.utils import get_openapi
-from .routers import auth_router, user_router, terminology_router, condition_router
+from routers import auth_router, user_router, terminology_router, condition_router
 
 app = FastAPI(title="NAMASTE ↔ ICD-11 Terminology Microservice")
 

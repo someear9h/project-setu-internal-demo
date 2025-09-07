@@ -1,7 +1,7 @@
 import re
 from fastapi import HTTPException
 import requests, logging
-from backend.core.config import settings
+from core.config import settings
 
 def strip_html(text: str) -> str:
     if not text:
