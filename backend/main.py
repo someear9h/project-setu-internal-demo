@@ -12,7 +12,7 @@ app = FastAPI(title="NAMASTE ↔ ICD-11 Terminology Microservice")
 allow_orig = settings.ALLOWED_ORIGINS.split(",") if settings.ALLOWED_ORIGINS else []
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"], # all all origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
