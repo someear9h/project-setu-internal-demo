@@ -9,14 +9,14 @@ from routers import auth_router, user_router, terminology_router, condition_rout
 API_PREFIX = "/project-setu-internal-dem/backend/v1.0"
 app = FastAPI(
     title="NAMASTE ↔ ICD-11 Terminology Microservice",
-    root_path="/project-setu-internal-dem/backend/v1.0"
+    root_path=API_PREFIX
 )
 
 # CORS
 allow_orig = settings.ALLOWED_ORIGINS.split(",") if settings.ALLOWED_ORIGINS else []
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # all all origins
+    allow_origins=["*"],  # allow all origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -29,7 +29,6 @@ def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
 
-    # use FastAPI's helper to generate base schema
     openapi_schema = get_openapi(
         title=app.title,
         version="1.0.0",
@@ -45,7 +44,6 @@ def custom_openapi():
         }
     }
 
-    # optional: make all endpoints require it by default
     for path in openapi_schema["paths"].values():
         for op in path.values():
             op["security"] = [{"BearerAuth": []}]
@@ -57,10 +55,10 @@ app.openapi = custom_openapi
 
 
 # ================= HEALTH CHECK =================
-
 @app.get("/", tags=["Health Check"])
 def choreo_health_check():
     return {"status": "ok", "message": "Ayush FHIR Coder is running"}
+
 
 # ================= NAMASTE CSV =================
 csv_path = os.path.join(os.path.dirname(__file__), "data", "namaste.csv")
@@ -74,11 +72,19 @@ else:
     print("NAMASTE CSV not found at", csv_path)
 app.state.namaste_data = namaste_data
 
+
 # ================= CREATE DB =================
 create_tables()
+
 
 # ================= INCLUDE ROUTERS =================
 app.include_router(auth_router.router)
 app.include_router(user_router.router)
 app.include_router(terminology_router.router)
 app.include_router(condition_router.router)
+
+
+# ================= RUN LOCAL =================
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
