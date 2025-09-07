@@ -4,8 +4,8 @@ import { FaSearch, FaMapMarkerAlt, FaGlobe, FaStethoscope, FaWaveSquare, FaCopy,
 
 // ---------- API Base URL ----------
 const BASE_URL = window.location.hostname === 'localhost'
-  ? 'http://localhost:8000'            // Local FastAPI backend
-  : '/choreo-apis/project-setu-internal-dem/backend/v1';  // Choreo endpoint
+  ? 'http://localhost:8000'
+  : '/choreo-apis/project-setu-internal-dem/backend/v1.0';
 
 // --- Main App Component ---
 function App() {
