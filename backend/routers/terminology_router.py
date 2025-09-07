@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Request, HTTPException, Depends, Query
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from backend.utils import strip_html, normalize_term, call_who_icd
-from backend.icd_client import fetch_entity
-from backend.db import get_db
-from backend import models
-from backend.auth import get_current_user
+from ..utils import strip_html, normalize_term, call_who_icd
+from ..icd_client import fetch_entity
+from ..db import get_db
+from .. import models
+from ..auth import get_current_user
 
 router = APIRouter(prefix="/api", tags=["Terminology"])
 

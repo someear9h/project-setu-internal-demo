@@ -5,8 +5,8 @@ from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
-from backend.db import get_db
-from backend import models
+from .db import get_db
+from . import models
 import os
 
 # ================= CONFIG =================

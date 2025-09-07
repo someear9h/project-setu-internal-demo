@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from backend.db import get_db
 from backend import models
 from pydantic import BaseModel
-from backend.auth import get_password_hash, verify_password, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from ..auth import get_password_hash, verify_password, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 
 router = APIRouter(prefix="/api", tags=["Authentication"])
 

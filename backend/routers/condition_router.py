@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends
 from backend.db import get_db
 from sqlalchemy.orm import Session
-from backend import models, schemas
-from backend.utils import ensure_fhir_bundle
-from backend.auth import get_current_user
+from .. import models, schemas
+from ..utils import ensure_fhir_bundle
+from ..auth import get_current_user
 
 router = APIRouter(prefix="/api", tags=["Conditions"])
 

@@ -1,5 +1,5 @@
 import requests, logging
-from backend.config import settings
+from .config import settings
 
 TOKEN_ENDPOINT = "https://icdaccessmanagement.who.int/connect/token"
 ICD_ENTITY_BASE = "https://id.who.int/icd/entity"
