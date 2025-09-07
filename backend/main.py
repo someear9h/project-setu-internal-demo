@@ -56,6 +56,11 @@ app.openapi = custom_openapi
 API_PREFIX = "/project-setu-internal-dem/backend/v1.0"
 
 # ================= HEALTH CHECK =================
+pp = FastAPI(
+    title="NAMASTE ↔ ICD-11 Terminology Microservice",
+    root_path="/project-setu-internal-dem/backend/v1.0"
+)
+
 @app.get("/", tags=["Health Check"])
 def choreo_health_check():
     return {"status": "ok", "message": "Ayush FHIR Coder is running"}
