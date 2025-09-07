@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from backend.db import get_db
+from ..db import get_db
 from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..utils import ensure_fhir_bundle

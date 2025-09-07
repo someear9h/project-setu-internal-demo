@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import List
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
