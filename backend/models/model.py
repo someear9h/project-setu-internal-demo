@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime, JSON
-from .db import Base
+from backend.db.database import Base
 
 def uuid4_str():
     return str(uuid.uuid4())

@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from ..db import get_db
-from .. import models
+from backend.db.database import get_db
+from backend.models import model
 from pydantic import BaseModel
-from ..auth import get_password_hash, verify_password, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from backend.core.auth import get_password_hash, verify_password, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 
 router = APIRouter(prefix="/api", tags=["Authentication"])
 
@@ -31,9 +31,9 @@ class Token(BaseModel):
 # ================= REGISTER =================
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    if db.query(models.User).filter(models.User.username == user.username).first():
+    if db.query(model.User).filter(model.User.username == user.username).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already taken")
-    db_user = models.User(
+    db_user = model.User(
         username=user.username,
         full_name=user.full_name,
         hashed_password=get_password_hash(user.password)
@@ -46,7 +46,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 # ================= LOGIN =================
 @router.post("/token", response_model=Token)
 def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.username == form_data.username).first()
+    user = db.query(model.User).filter(model.User.username == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os, csv
-from .config import settings
-from .db import create_tables
+from .core.config import settings
+from .db.database import create_tables
 from fastapi.openapi.utils import get_openapi
 from .routers import auth_router, user_router, terminology_router, condition_router
 
@@ -12,7 +12,7 @@ app = FastAPI(title="NAMASTE ↔ ICD-11 Terminology Microservice")
 allow_orig = settings.ALLOWED_ORIGINS.split(",") if settings.ALLOWED_ORIGINS else []
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allow_orig or ["*"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
