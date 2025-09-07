@@ -53,12 +53,8 @@ app.openapi = custom_openapi
 
 
 # ================= HEALTH CHECK =================
-@app.get("/", tags=["Health Check"])
-def health_check():
-    """
-    This endpoint is used by Choreo for health checks.
-    It confirms that the application is alive and responding.
-    """
+@app.get("/backend/v1.0", tags=["Health Check"])
+def choreo_health_check():
     return {"status": "ok", "message": "Ayush FHIR Coder is running"}
 
 # ================= NAMASTE CSV =================
