@@ -1,8 +1,6 @@
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, DateTime, Text, Boolean, JSON
-from sqlalchemy.dialects.sqlite import BLOB
-from sqlalchemy.dialects.postgresql import UUID as P_UUID
+from sqlalchemy import Column, String, DateTime, JSON
 from backend.db import Base
 
 def uuid4_str():
