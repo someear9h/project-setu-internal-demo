@@ -6,6 +6,7 @@ from db.database import create_tables
 from fastapi.openapi.utils import get_openapi
 from routers import auth_router, user_router, terminology_router, condition_router
 
+https://209f44ba-8eb5-477c-aaa0-d3ca9bc0e0e9-dev.e1-us-east-azure.choreoapis.dev/project-setu-internal-dem/backend/v1.0
 API_PREFIX = "/project-setu-internal-dem/backend/v1.0"
 app = FastAPI(
     title="NAMASTE ↔ ICD-11 Terminology Microservice",
@@ -55,7 +56,7 @@ app.openapi = custom_openapi
 
 
 # ================= HEALTH CHECK =================
-@app.get("/", tags=["Health Check"])
+@app.get("https://209f44ba-8eb5-477c-aaa0-d3ca9bc0e0e9-dev.e1-us-east-azure.choreoapis.dev/project-setu-internal-dem/backend/v1.0/", tags=["Health Check"])
 def choreo_health_check():
     return {"status": "ok", "message": "Ayush FHIR Coder is running"}
 
