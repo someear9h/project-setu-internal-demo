@@ -4,23 +4,16 @@ from fastapi.openapi.utils import get_openapi
 from contextlib import asynccontextmanager
 import os, csv
 
-# --- Corrected Imports (assuming your structure) ---
 from core.config import settings
 from db.database import create_tables
 from routers import auth_router, user_router, terminology_router, condition_router
 
-# --- Choreo API Prefix ---
-# This prefix is added to all routes to match Choreo's gateway URL
-# API_PREFIX = "/project-setu-internal-dem/backend/v1.0"
 
-
-# --- Lifespan Function (for startup logic) ---
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Code to run on application startup
     print("--- Starting up application ---")
 
-    # Load NAMASTE CSV data into application state
+    # Load NAMASTE CSV
     csv_path = os.path.join(os.path.dirname(__file__), "data", "namaste.csv")
     if os.path.exists(csv_path):
         with open(csv_path, newline="", encoding="utf-8") as f:
@@ -31,32 +24,30 @@ async def lifespan(app: FastAPI):
         app.state.namaste_data = []
         print(f"Warning: NAMASTE CSV not found at {csv_path}")
 
-    # Create database tables
     create_tables()
     print("Database tables checked/created.")
 
     yield
-    # Code to run on application shutdown
     print("--- Shutting down application ---")
 
 
-# --- FastAPI App Initialization ---
 app = FastAPI(
     title="NAMASTE ↔ ICD-11 Terminology Microservice",
     lifespan=lifespan
 )
 
-# --- CORS Middleware ---
+
+# --- CORS ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-# --- Custom OpenAPI for JWT Authentication in Docs ---
+# --- Custom OpenAPI (secured by default except /register, /token) ---
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
@@ -70,45 +61,32 @@ def custom_openapi():
     openapi_schema["components"]["securitySchemes"] = {
         "BearerAuth": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"}
     }
-    # Apply security scheme to all paths
-    api_router = next(route for route in app.routes if route.path == API_PREFIX)
-    for route in api_router.routes:
-        path = getattr(route, "path")
-        for method in getattr(route, "methods"):
-            # Exclude auth routes from default security
-            if path not in ["/api/token", "/api/register"]:
-                openapi_schema["paths"][f"{API_PREFIX}{path}"][method.lower()]["security"] = [{"BearerAuth": []}]
+
+    # Apply BearerAuth to all paths except register/token
+    for path, methods in openapi_schema["paths"].items():
+        if not (path.endswith("/token") or path.endswith("/register")):
+            for method in methods.values():
+                method.setdefault("security", [{"BearerAuth": []}])
 
     app.openapi_schema = openapi_schema
     return app.openapi_schema
 
-
 app.openapi = custom_openapi
 
 
-# --- Health Check Endpoint (with prefix) ---
-# This is what Choreo will ping to see if your service is alive.
+# --- Health Check ---
 @app.get(f"{settings.API_PREFIX}/", tags=["Health Check"])
 def health_check():
     return {"status": "ok", "message": "Ayush FHIR Coder is running"}
 
 
-# --- Include Routers with the Choreo Prefix ---
-# This mounts all your API endpoints under the main prefix.
-# e.g., auth_router's /api/token becomes /project-setu-internal-dem/backend/v1.0/api/token
-
+# --- Routers ---
 app.include_router(auth_router.router, prefix=settings.API_PREFIX)
-
-app.include_router(user_router.router, prefix = settings.API_PREFIX)
-app.include_router(terminology_router.router, prefix = settings.API_PREFIX)
-app.include_router(condition_router.router, prefix = settings.API_PREFIX)
-
+app.include_router(user_router.router, prefix=settings.API_PREFIX)
+app.include_router(terminology_router.router, prefix=settings.API_PREFIX)
+app.include_router(condition_router.router, prefix=settings.API_PREFIX)
 
 
-# --- Local Development Runner ---
 if __name__ == "__main__":
     import uvicorn
-
-    # Note: For local running, URLs will now include the prefix,
-    # e.g., http://localhost:8000/project-setu-internal-dem/backend/v1.0/docs
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
