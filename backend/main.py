@@ -75,7 +75,7 @@ app.openapi = custom_openapi
 
 
 # --- Health Check ---
-@app.get(f"{settings.API_PREFIX}/", tags=["Health Check"])
+@app.get("/", tags=["Health Check"])
 def health_check():
     return {"status": "ok", "message": "Ayush FHIR Coder is running"}
 
