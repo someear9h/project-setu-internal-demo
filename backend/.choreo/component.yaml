@@ -9,6 +9,7 @@ endpoints:
       networkVisibilities:
         - Project
         - Public
+      basePath: /project-setu-internal-dem/backend/v1.0
 #dependencies:
 #    connectionReferences:
 #    - name: openai-connection
