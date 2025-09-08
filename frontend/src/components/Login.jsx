@@ -20,7 +20,7 @@ function Login({ onLogin }) {
     params.append('password', password);
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/token`, params, {
+      const response = await axios.post(`${BASE_URL}/token`, params, {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
       onLogin(response.data.access_token);
