@@ -8,6 +8,7 @@ const BASE_URL = window.location.hostname === 'localhost'
   : '/choreo-apis/project-setu-internal-dem/backend/v1.0/api';
 
 // --- Main App Component ---
+
 function App() {
   // State Management
   const [token, setToken] = useState(localStorage.getItem('authToken'));
