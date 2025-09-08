@@ -96,7 +96,9 @@ def health_check():
 # --- Include Routers with the Choreo Prefix ---
 # This mounts all your API endpoints under the main prefix.
 # e.g., auth_router's /api/token becomes /project-setu-internal-dem/backend/v1.0/api/token
-app.include_router(auth_router.router, prefix = settings.API_PREFIX)
+
+app.include_router(auth_router.router, prefix=settings.API_PREFIX)
+
 app.include_router(user_router.router, prefix = settings.API_PREFIX)
 app.include_router(terminology_router.router, prefix = settings.API_PREFIX)
 app.include_router(condition_router.router, prefix = settings.API_PREFIX)
