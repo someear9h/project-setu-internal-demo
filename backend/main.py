@@ -11,7 +11,7 @@ from routers import auth_router, user_router, terminology_router, condition_rout
 
 # --- Choreo API Prefix ---
 # This prefix is added to all routes to match Choreo's gateway URL
-API_PREFIX = "/project-setu-internal-dem/backend/v1.0"
+# API_PREFIX = "/project-setu-internal-dem/backend/v1.0"
 
 
 # --- Lifespan Function (for startup logic) ---

@@ -5,7 +5,7 @@ import { FaSearch, FaMapMarkerAlt, FaGlobe, FaStethoscope, FaWaveSquare, FaCopy,
 // ---------- API Base URL ----------
 const BASE_URL = window.location.hostname === 'localhost'
   ? 'http://localhost:8000'
-  : '/choreo-apis/project-setu-internal-dem/backend/v1.0';
+  : '/choreo-apis/project-setu-internal-dem/backend/v1.0/api';
 
 // --- Main App Component ---
 function App() {
@@ -50,8 +50,8 @@ function App() {
 
 // --- Login Screen Component ---
 function LoginScreen({ onLogin, error, setError }) {
-  const [username, setUsername] = useState('doctor_sanjay'); // Default for demo
-  const [password, setPassword] = useState('supersecretpassword'); // Default for demo
+  const [username, setUsername] = useState('sama'); // Default for demo
+  const [password, setPassword] = useState('pass1'); // Default for demo
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -64,7 +64,7 @@ function LoginScreen({ onLogin, error, setError }) {
     params.append('password', password);
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/token`, params, {
+      const response = await axios.post(`${BASE_URL}/token`, params, {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
       onLogin(response.data.access_token);
