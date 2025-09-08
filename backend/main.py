@@ -88,7 +88,7 @@ app.openapi = custom_openapi
 
 # --- Health Check Endpoint (with prefix) ---
 # This is what Choreo will ping to see if your service is alive.
-@app.get(f"{API_PREFIX}/", tags=["Health Check"])
+@app.get(f"{settings.API_PREFIX}/", tags=["Health Check"])
 def health_check():
     return {"status": "ok", "message": "Ayush FHIR Coder is running"}
 
@@ -96,10 +96,10 @@ def health_check():
 # --- Include Routers with the Choreo Prefix ---
 # This mounts all your API endpoints under the main prefix.
 # e.g., auth_router's /api/token becomes /project-setu-internal-dem/backend/v1.0/api/token
-app.include_router(auth_router.router, prefix=API_PREFIX)
-app.include_router(user_router.router, prefix=API_PREFIX)
-app.include_router(terminology_router.router, prefix=API_PREFIX)
-app.include_router(condition_router.router, prefix=API_PREFIX)
+app.include_router(auth_router.router, prefix = settings.API_PREFIX)
+app.include_router(user_router.router, prefix = settings.API_PREFIX)
+app.include_router(terminology_router.router, prefix = settings.API_PREFIX)
+app.include_router(condition_router.router, prefix = settings.API_PREFIX)
 
 # --- Local Development Runner ---
 if __name__ == "__main__":
