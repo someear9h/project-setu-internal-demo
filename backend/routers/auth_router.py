@@ -8,7 +8,7 @@ from models import model
 from pydantic import BaseModel
 from core.auth import get_password_hash, verify_password, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 
-router = APIRouter(tags=["Authentication"])
+router = APIRouter(prefix="/api", tags=["Authentication"])
 
 # Pydantic Schemas
 class UserCreate(BaseModel):
