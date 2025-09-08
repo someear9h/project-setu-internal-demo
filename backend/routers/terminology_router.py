@@ -7,7 +7,7 @@ from db.database import get_db
 from models import model
 from core.auth import get_current_user
 
-router = APIRouter(prefix="/api", tags=["Terminology"])
+router = APIRouter(tags=["Terminology"])
 
 # AUTOCOMPLETE
 @router.get("/autocomplete-namaste")

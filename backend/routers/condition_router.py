@@ -6,7 +6,7 @@ from schemas import schema
 from core.utils import ensure_fhir_bundle
 from core.auth import get_current_user
 
-router = APIRouter(prefix="/api", tags=["Conditions"])
+router = APIRouter(tags=["Conditions"])
 
 @router.post("/generate-fhir-condition")
 def generate_fhir_condition(request_body: schema.ConditionCreate, actor: str | None = "system", _user=Depends(get_current_user)):

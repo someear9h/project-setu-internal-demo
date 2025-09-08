@@ -4,7 +4,7 @@ from db.database import get_db
 from models import model
 from schemas import schema
 
-router = APIRouter(prefix="", tags=["Users"])
+router = APIRouter(tags=["Users"])
 
 @router.get("/users/me", response_model=schema.UserPublic)
 def get_me(username: str = None, db: Session = Depends(get_db)):
