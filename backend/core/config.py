@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_SECONDS: int = 3600
 
+    GEMINI_API_KEY: str
+
     WHO_CLIENT_ID: str = ""
     WHO_CLIENT_SECRET: str = ""
     WHO_API_BASE: str = "https://id.who.int/icd"

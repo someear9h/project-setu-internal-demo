@@ -38,3 +38,14 @@ uvicorn==0.35.0
 uvloop==0.21.0
 watchfiles==1.1.0
 websockets==15.0.1
+
+
+# --- LLM and Generative AI ---
+# The main LangChain library for orchestrating LLM workflows
+langchain
+
+# The specific LangChain integration for Google's Generative AI models (like Gemini)
+langchain-google-genai
+
+# The underlying Google AI Python SDK, used by the LangChain integration
+google-generativeai
