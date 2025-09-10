@@ -57,7 +57,7 @@ function App() {
         return;
       }
       try {
-        const response = await api.get(`/api/autocomplete-namaste?term=${term}`);
+        const response = await api.get(`/autocomplete-namaste?term=${term}`);
         setSuggestions(response.data.results);
       } catch (error) {
         console.error("Error fetching suggestions:", error);
@@ -80,7 +80,7 @@ function App() {
     setFhirRecord(null);
 
     try {
-      const response = await api.post('/api/translate/namaste-to-icd', {
+      const response = await api.post('/translate/namaste-to-icd', {
         namaste_code: suggestion.NAMASTE_Code,
         namaste_display: suggestion.Traditional_Term,
       });
@@ -110,7 +110,7 @@ function App() {
     };
 
     try {
-      const response = await api.post('/api/generate-fhir-condition', payload);
+      const response = await api.post('/generate-fhir-condition', payload);
       const fhirResponse = response.data;
       // Add mock metadata for display
       fhirResponse.id = "condition-1";
