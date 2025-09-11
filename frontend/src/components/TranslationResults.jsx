@@ -1,6 +1,6 @@
 // src/components/TranslationResults.jsx
 import React from 'react';
-import { FaMapMarkerAlt, FaGlobe, FaStethoscope, FaWaveSquare } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaGlobe, FaStethoscope } from 'react-icons/fa';
 
 function TranslationResults({ namasteResult, icdResult, isLoading }) {
   if (!namasteResult && !isLoading) return null;
@@ -8,8 +8,11 @@ function TranslationResults({ namasteResult, icdResult, isLoading }) {
   return (
     <div className="results-container">
       <h2 className="section-title centered-title">Code Translation Results</h2>
-      {isLoading ? <p className="loading-text">Loading Translation...</p> : (
+      {isLoading ? (
+        <p className="loading-text">Loading Translation...</p>
+      ) : (
         <>
+          {/* NAMASTE CARD */}
           <div className="card result-card">
             <div className="card-header">
               <FaMapMarkerAlt color="#4A90E2" />
@@ -27,11 +30,14 @@ function TranslationResults({ namasteResult, icdResult, isLoading }) {
             </div>
           </div>
 
+          {/* ICD-11 CARD */}
           <div className="card result-card">
             <div className="card-header">
               <FaGlobe color="#4A90E2" />
               <h3 className="card-title">ICD-11 Codes (International)</h3>
             </div>
+
+            {/* Traditional Medicine */}
             <div className="icd-section">
               <div className="icd-header">
                 <FaStethoscope color="#50E3C2" />
@@ -40,9 +46,11 @@ function TranslationResults({ namasteResult, icdResult, isLoading }) {
               <p className="code-text-small">{icdResult?.tm?.code || 'N/A'}</p>
               <p className="term-text-small">{icdResult?.tm?.display || 'N/A'}</p>
             </div>
+
+            {/* Biomedical Equivalent */}
             <div className="icd-section">
               <div className="icd-header">
-                <FaWaveSquare color="#F5A623" />
+                <FaStethoscope color="#F5A623" />
                 <span className="sub-header-text">Biomedical Equivalent</span>
               </div>
               <p className="code-text-small">{icdResult?.biomed?.code || 'N/A'}</p>

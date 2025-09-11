@@ -39,11 +39,11 @@ for item in data.get("destinationEntities", []):
 entity_url = "http://id.who.int/icd/release/11/2025-01/mms/2020851679"
 r = requests.get(entity_url, headers=headers, verify=False)
 entity_data = r.json()
-print(entity_data)  # Look for fields like 'code' or 'title'
+# print(entity_data)  # Look for fields like 'code' or 'title'
 
-entity_url = "http://id.who.int/icd/release/11/2025-01/mms/2020851679"
-r = requests.get(entity_url, headers=headers, verify=False)
-entity_data = r.json()
+# entity_url = "http://id.who.int/icd/release/11/2025-01/mms/2020851679"
+# r = requests.get(entity_url, headers=headers, verify=False)
+# entity_data = r.json()
 
 # Extract just the disease name and ICD-11 code
 disease_name = entity_data['title']['@value']

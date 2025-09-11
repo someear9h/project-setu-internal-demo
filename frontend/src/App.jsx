@@ -82,23 +82,49 @@ function App() {
     setFhirRecord(null);
 
     try {
-      const response = await api.post('/translate/namaste-to-icd', {
+      // --- STEP 1: Translate NAMASTE term to get ICD candidates ---
+      const translateResponse = await api.post('/translate/namaste-to-icd', {
         namaste_code: suggestion.NAMASTE_Code,
         namaste_display: suggestion.Traditional_Term,
       });
-      const candidates = response.data.candidates;
+
+      const candidates = translateResponse.data.candidates;
+
+      // Check if we have any potential matches
       if (candidates && candidates.length > 0) {
-        setIcdResults({
-          tm: candidates[0],
-          biomed: candidates[1] || candidates[0],
-        });
+        const bestMatch = candidates[0]; // Assume the first result is the best one
+        const entityId = bestMatch.entity_id;
+
+        if (entityId) {
+          // --- STEP 2: Fetch the full entity details using its ID to get the code ---
+          const entityResponse = await api.get(`/entity/${entityId}`);
+          const entityData = entityResponse.data;
+
+          // Now, construct the final result object with the code from the entity endpoint
+          const finalIcdResult = {
+            code: entityData.code || 'N/A', // The alphanumeric code from the entity details
+            display: bestMatch.display,      // The display name from the initial search
+          };
+
+          // As per your UI, both TM and Biomedical sections show the same result for "Fever"
+          setIcdResults({
+            tm: finalIcdResult,
+            biomed: finalIcdResult,
+          });
+
+        } else {
+           console.error("No valid entity_id found for the best match.");
+           setIcdResults({ tm: { code: 'Error', display: 'Not Found' }, biomed: { code: 'Error', display: 'Not Found' } });
+        }
       }
-    } catch (error)   {
+    } catch (error) {
       console.error("Error translating code:", error);
+      // Optionally set an error state to show in the UI
     } finally {
       setIsLoading(false);
     }
   };
+
 
   // 2. NEW HANDLER for AI Assistant output
   const handleAiDiagnosisSelect = (aiResult) => {

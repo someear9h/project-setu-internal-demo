@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, HTTPException, Depends, Query
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from core.utils import strip_html, normalize_term, call_who_icd
-from core.icd_client import fetch_entity
+from core.icd_client import fetch_entity, search_icd, get_icd_entity
 from db.database import get_db
 from models import model
 from core.auth import get_current_user
@@ -64,37 +64,74 @@ def translate_namaste(
     matches = []
     for d in destination:
         id_url = d.get("id")
+        entity_id = id_url.split("/")[-1] if id_url else None
         title = strip_html(d.get("title", ""))
-        code = id_url.split("/")[-1] if id_url else None
-        matches.append({"id": id_url, "code": code, "display": title})
+        matches.append({
+            "id": id_url,
+            "entity_id": entity_id,
+            "display": title
+        })
 
     return {
         "namaste_code": req.namaste_code,
         "candidates": matches
     }
 
+@router.get("/search/{diagnosis}")
+def search_icd_code(diagnosis: str):
+    """
+    Search ICD-11 codes by diagnosis name
+    """
+    results = search_icd(diagnosis)
+    destination_entities = results.get("destinationEntities", [])
+    formatted_results = []
 
-@router.get("/icd/entity")
-def who_fetch_entity(
-    uri: str,
-    _user=Depends(get_current_user)
-):
-    try:
-        entity = fetch_entity(uri)
-        if "definition" in entity and entity["definition"]:
-            entity["definition"]["@value"] = strip_html(entity["definition"]["@value"])
-        return entity
-    except Exception as e:
-        raise HTTPException(status_code=502, detail=f"WHO entity fetch failed: {e}")
+    for item in destination_entities:
+        id_val = item.get("id")
+
+        # Handle both dict and string cases for title
+        title_val = item.get("title")
+        if isinstance(title_val, dict):
+            title_val = title_val.get("@value", "N/A")
+        elif not title_val:
+            title_val = "N/A"
+
+        formatted_results.append({
+            "id": id_val,
+            "title": title_val
+        })
+
+    return {"query": diagnosis, "results": formatted_results}
 
 
-@router.get("/who-icd-entity")
-def get_who_icd_entity(
-    uri: str = Query(..., description="WHO ICD entity URI"),
-    _user=Depends(get_current_user)
-):
-    try:
-        data = call_who_icd(uri)
-        return data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@router.get("/entity/{entity_id}")
+def get_icd_entity_details(entity_id: str):
+    """
+    Get ICD-11 entity details by numeric ID (e.g., 2020851679)
+    """
+    return get_icd_entity(entity_id)
+
+# @router.get("/who-icd-entity")
+# def get_who_icd_entity(
+#     uri: str,
+#     _user=Depends(get_current_user)
+# ):
+#     try:
+#         entity = fetch_entity(uri)
+#         if "definition" in entity and entity["definition"]:
+#             entity["definition"]["@value"] = strip_html(entity["definition"]["@value"])
+#         return entity
+#     except Exception as e:
+#         raise HTTPException(status_code=502, detail=f"WHO entity fetch failed: {e}")
+
+
+# @router.get("/who-icd-entity")
+# def get_who_icd_entity(
+#     uri: str = Query(..., description="WHO ICD entity URI"),
+#     _user=Depends(get_current_user)
+# ):
+#     try:
+#         data = call_who_icd(uri)
+#         return data
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
