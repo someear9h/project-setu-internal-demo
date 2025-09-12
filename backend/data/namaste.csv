@@ -8,12 +8,95 @@ AY-EF-05,Amavata,Rheumatoid Arthritis,Ayurveda
 AY-CA-11,Rakta Gata Vata,Hypertension,Ayurveda
 AY-CD-01,Shwasa,Asthma,Ayurveda
 AY-EE-15,Kushtha,Psoriasis,Ayurveda
+AY-AB-12,Anidra,Insomnia,Ayurveda
+AY-AB-18,Chittodvega,Anxiety Disorder,Ayurveda
+AY-AB-22,Manodvega,Depression,Ayurveda
+AY-AD-07,Prameha,Metabolic Syndrome,Ayurveda
+AY-BC-14,Pandu,Anaemia,Ayurveda
+AY-BE-06,Kasa,Cough,Ayurveda
+AY-BE-11,Peenas,Nasal Catarrh / Rhinitis,Ayurveda
+AY-BE-17,Tamak Shwasa,Bronchial Asthma,Ayurveda
+AY-BD-03,Hridroga,Heart Disease,Ayurveda
+AY-BD-08,Vatarakta,Gout,Ayurveda
+AY-BD-15,Sandhivata,Osteoarthritis,Ayurveda
+AY-BE-20,Atisara,Diarrhoea,Ayurveda
+AY-BE-21,Grahani,IBS / Malabsorption Syndrome,Ayurveda
+AY-BE-22,Udavarta,Constipation,Ayurveda
+AY-EE-08,Shvitra,Vitiligo,Ayurveda
+AY-EE-19,Dadru,Ringworm / Fungal Infection,Ayurveda
+AY-EE-23,Charmadala,Eczema,Ayurveda
+AY-EE-29,Visarpa,Herpes Zoster / Shingles,Ayurveda
+AY-AC-05,Ardita,Bell’s Palsy,Ayurveda
+AY-AC-09,Apasmara,Epilepsy,Ayurveda
+AY-AC-15,Murcha,Fainting / Syncope,Ayurveda
+AY-AC-25,Kampavata,Parkinsonism,Ayurveda
+AY-AC-33,Shiroroga,Migraine,Ayurveda
+AY-AC-38,Vata Vyadhi,Neuropathy,Ayurveda
+AY-BF-07,Yonivyapad,Gynecological Disorders,Ayurveda
+AY-BF-14,Pushpaghni,Amenorrhea,Ayurveda
+AY-BF-18,Artavadushti,Menstrual Disorder,Ayurveda
+AY-BF-20,Stanyashosha,Lactation Failure,Ayurveda
+AY-BF-25,Garbhashaya Vikar,Uterine Disorders,Ayurveda
+AY-BG-04,Phiranga,Syphilis,Ayurveda
+AY-BG-08,Rajayakshma,Tuberculosis,Ayurveda
+AY-BG-12,Kilasa,Leprosy,Ayurveda
+AY-BG-18,Mukharoga,Oral Ulcers,Ayurveda
+AY-BG-22,Dantashula,Toothache,Ayurveda
+AY-BG-30,Karna Roga,Otitis Media,Ayurveda
+
 SI-CD-05,Erumal,Cough,Siddha
 SI-EB-02,Vali Gunmam,Peptic Ulcer,Siddha
 SI-BC-01,Pandu,Anaemia,Siddha
 SI-AE-07,Thalai Vali,Headache,Siddha
+SI-AB-03,Thookkam Illai,Insomnia,Siddha
+SI-AB-08,Mano Azhutham,Depression,Siddha
+SI-AB-12,Amaippu Kalangam,Anxiety Disorder,Siddha
+SI-BD-02,Irumal Asthma,Bronchial Asthma,Siddha
+SI-BD-06,Thalai Soolai,Migraine,Siddha
+SI-BD-11,Sudhandhira Noi,Hypertension,Siddha
+SI-BE-04,Mula Noi,Piles,Siddha
+SI-BE-07,Kalladaippu,Renal Stones,Siddha
+SI-BE-13,Vayiru Vali,Abdominal Pain,Siddha
+SI-BE-16,Perum Kazhichal,Diarrhoea,Siddha
+SI-BE-19,Vandhi,Vomiting,Siddha
+SI-EE-03,Kuttam,Skin Diseases,Siddha
+SI-EE-07,Karappan,Eczema,Siddha
+SI-EE-09,Venpadai,Vitiligo,Siddha
+SI-EE-12,Siru Viral Noi,Chickenpox,Siddha
+SI-EE-16,Sutrula Noi,Herpes Simplex,Siddha
+SI-BF-05,Pengal Thollai,Menstrual Disorders,Siddha
+SI-BF-08,Kalappu Noi,Infertility,Siddha
+SI-BF-11,Magaraga Noi,Uterine Fibroid,Siddha
+SI-BF-14,Matha Vayu,Lactation Issues,Siddha
+SI-AC-06,Thalai Sutru Noi,Vertigo,Siddha
+SI-AC-09,Thalai Irakkam,Epilepsy,Siddha
+SI-AC-14,Thalai Thirivu,Stroke,Siddha
+SI-AC-20,Thalai Otrumai,Parkinsonism,Siddha
+
 UN-CD-02,Nazla Zukam,Common Cold,Unani
 UN-AC-18,Waja-ul-Mafasil,Arthritis / Joint Pain,Unani
 UN-EF-10,Bawaseer,Haemorrhoids / Piles,Unani
 UN-BA-01,Zeeq-un-Nafas,Asthma,Unani
 UN-BC-03,Su-ul-Qinya,Iron-deficiency Anaemia,Unani
+UN-AB-05,Suda,Headache,Unani
+UN-AB-08,Waswasah,Anxiety,Unani
+UN-AB-12,Ihtibas-ul-Baul,Urinary Retention,Unani
+UN-BD-03,Dil ka Dard,Heart Disease,Unani
+UN-BD-07,Zoaf-e-Qalb,Heart Weakness,Unani
+UN-BD-10,Daf-e-Suda,Hypertension,Unani
+UN-BE-06,Ishal,Diarrhoea,Unani
+UN-BE-09,Qulanj,Colitis,Unani
+UN-BE-13,Sual,Cough,Unani
+UN-BE-16,Humma Bukhar,Fever,Unani
+UN-EE-02,Baras,Vitiligo,Unani
+UN-EE-06,Daad,Fungal Infection,Unani
+UN-EE-10,Judari,Smallpox,Unani
+UN-EE-13,Hasbah,Measles,Unani
+UN-EE-15,Juzam,Leprosy,Unani
+UN-AC-22,Sara,Epilepsy,Unani
+UN-AC-25,Faalij,Paralysis,Unani
+UN-AC-30,Sakta,Stroke,Unani
+UN-BF-05,Ihtibas-e-Tams,Amenorrhea,Unani
+UN-BF-09,Soosak,Gynecological Disorder,Unani
+UN-BF-14,Qillat-e-Luban,Lactation Failure,Unani
+UN-BF-18,Warme Rehm,Uterine Inflammation,Unani
