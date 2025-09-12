@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import axios from 'axios';
-import { BASE_URL } from '../util.js';
+import { BASE_URL } from './util.js';
 // ------------------
 // Adjust BASE_URL for your deployed backend
 // ----------------
