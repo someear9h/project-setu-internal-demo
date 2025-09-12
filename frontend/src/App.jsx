@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import axios from 'axios';
-
+import { BASE_URL } from '../util.js';
 // ------------------
 // Adjust BASE_URL for your deployed backend
-// ------------------
-const BASE_URL = window.location.hostname === 'localhost'
-  ? '/api'
-  : '/choreo-apis/project-setu-internal-dem/backend/v1.0/api';
+// ----------------
 
 // ------------------
 // Small SVG icons (kept inline so this file is standalone)
