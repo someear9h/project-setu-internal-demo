@@ -1,11 +1,16 @@
-// src/components/Register.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FaExclamationCircle, FaCheckCircle } from 'react-icons/fa';
 import { BASE_URL } from '../util.js';
 
-function Register({ onSwitchToLogin }) {
-  const [username, setUsername] = useState('');
+/**
+ * Register component with ABHA ID validation and auto-login flow.
+ * @param {object} props
+ * @param {function} props.onSwitchToLogin - Function to switch the view to the login component.
+ * @param {function} props.onRegisterSuccess - Callback function that passes the new credentials up to the parent component for the auto-login flow.
+ */
+function Register({ onSwitchToLogin, onRegisterSuccess }) {
+  const [username, setUsername] = useState(''); // This field now represents the ABHA ID
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -14,14 +19,21 @@ function Register({ onSwitchToLogin }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    // --- Validation Step ---
     if (!username || !password || !fullName) {
       setError('All fields are required.');
       return;
     }
-    setIsLoading(true);
-    setError('');
-    setSuccess('');
+    // New validation for ABHA ID prefix
+    if (!username.toUpperCase().startsWith('ABHA ')) {
+      setError('ID should be starting with ABHA.');
+      return;
+    }
 
+    setIsLoading(true);
     const payload = {
       username,
       full_name: fullName,
@@ -30,15 +42,19 @@ function Register({ onSwitchToLogin }) {
 
     try {
       await axios.post(`${BASE_URL}/register`, payload);
-      setSuccess('Registration successful! Please log in.');
+      setSuccess('Registration successful! Redirecting to login...');
+
+      // --- New Post-Registration Flow ---
+      // After a short delay, trigger the parent component to handle the switch to a pre-filled login form.
       setTimeout(() => {
-        onSwitchToLogin(); // Switch to login view after a short delay
+        onRegisterSuccess(username, password);
       }, 2000);
+
     } catch (err) {
       if (err.response && err.response.data && err.response.data.detail) {
         setError(err.response.data.detail);
       } else {
-        setError('Registration failed. Please try again.');
+        setError('Registration failed. This ABHA ID may already be taken.');
       }
       console.error(err);
     } finally {
@@ -62,7 +78,7 @@ function Register({ onSwitchToLogin }) {
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username (e.g., doctor_sanjay)"
+          placeholder="Enter ABHA ID (e.g., ABHA 1122)"
           className="login-input"
         />
         <input
