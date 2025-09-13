@@ -12,7 +12,7 @@ import os
 # ================= CONFIG =================
 SECRET_KEY = os.getenv("JWT_SECRET") or "supersecretkey123"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60  # 1 hour
+ACCESS_TOKEN_EXPIRE_MINUTES = 10080
 
 # ================= PASSWORD HASHING =================
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
