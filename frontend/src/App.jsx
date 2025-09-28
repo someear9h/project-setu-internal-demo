@@ -141,7 +141,7 @@ function Register({ onSwitchToLogin, onRegisterSuccess }) {
 // AUTH wrapper (switch between login/register)
 // ------------------
 function Auth({ onLogin }) {
-  const [view, setView] = useState('login');
+  const [view, setView] = useState('register');
   const [credentials, setCredentials] = useState({ username: '', password: '' });
 
   const handleRegisterSuccess = (username, password) => {
