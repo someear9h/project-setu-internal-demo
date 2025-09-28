@@ -3,6 +3,8 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import axios from 'axios';
 import { BASE_URL } from './util.js';
 import AiAssistant from './components/AiAssistant.jsx';
+import BundleUpload from "./components/BundleUpload.jsx";
+
 
 // ------------------
 // Small SVG icons (kept inline so this file is standalone)
@@ -386,8 +388,9 @@ export default function App() {
               <AiAssistant api={api} onDiagnosisSelect={handleAiDiagnosisSelect} />
 
               <TranslationResults namasteResult={selectedNamaste} icdResult={icdResults} isLoading={isLoading} />
-
               <FhirOutput fhirRecord={fhirRecord} onGenerate={handleGenerateFhir} isVisible={Boolean(icdResults && !isLoading)} />
+              <BundleUpload token={token} fhirRecord={fhirRecord} />
+
             </>
           )}
         </main>

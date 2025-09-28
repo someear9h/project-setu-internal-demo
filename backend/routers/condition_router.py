@@ -56,4 +56,5 @@ def upload_bundle(bundle: dict, db: Session = Depends(get_db), actor: str | None
             # audit
             db.add(model.AuditLog(actor=actor, action="bundle-condition-store", resource=c.id, details={"patient": c.patient_id}))
             db.commit()
+    print(f"INFO: Successfully processed bundle. Stored {len(stored)} Condition(s).")
     return {"stored": stored}
