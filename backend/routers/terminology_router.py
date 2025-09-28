@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from core.utils import strip_html, normalize_term, call_who_icd
 from core.icd_client import fetch_entity, search_icd, get_icd_entity
 from db.database import get_db
-from models import model
+from models import audit_logging
 from core.auth import get_current_user
 
 router = APIRouter(tags=["Terminology"])
@@ -44,7 +44,7 @@ def translate_namaste(
     _user=Depends(get_current_user)
 ):
     # log audit
-    db.add(model.AuditLog(
+    db.add(audit_logging.AuditLog(
         actor=actor,
         action="translate",
         resource=req.namaste_code,

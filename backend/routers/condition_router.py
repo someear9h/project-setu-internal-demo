@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from db.database import get_db
 from sqlalchemy.orm import Session
-from models import model
+from models import audit_logging
 from schemas import schema
 from core.utils import ensure_fhir_bundle
 from core.auth import get_current_user
@@ -39,7 +39,7 @@ def upload_bundle(bundle: dict, db: Session = Depends(get_db), actor: str | None
     for ent in entries:
         res = ent.get("resource", {})
         if res.get("resourceType") == "Condition":
-            c = model.Condition(
+            c = audit_logging.Condition(
                 patient_id = res.get("subject", {}).get("reference", "").split("/")[-1] or "unknown",
                 namaste_code = next((cd.get("code") for cd in res.get("code", {}).get("coding", []) if "ayush" in (cd.get("system") or "")), None),
                 namaste_display = next((cd.get("display") for cd in res.get("code", {}).get("coding", []) if "ayush" in (cd.get("system") or "")), None),
@@ -54,7 +54,7 @@ def upload_bundle(bundle: dict, db: Session = Depends(get_db), actor: str | None
             db.refresh(c)
             stored.append({"id": c.id, "patient_id": c.patient_id})
             # audit
-            db.add(model.AuditLog(actor=actor, action="bundle-condition-store", resource=c.id, details={"patient": c.patient_id}))
+            db.add(audit_logging.AuditLog(actor=actor, action="bundle-condition-store", resource=c.id, details={"patient": c.patient_id}))
             db.commit()
     print(f"INFO: Successfully processed bundle. Stored {len(stored)} Condition(s).")
     return {"stored": stored}
