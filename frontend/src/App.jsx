@@ -192,8 +192,8 @@ function TranslationResults({ namasteResult, icdResult, isLoading }) {
       {!isLoading && icdResult && (
         <div>
           <p><strong>NAMASTE:</strong> {namasteResult?.Traditional_Term} ({namasteResult?.NAMASTE_Code})</p>
-          <p><strong>ICD/TM:</strong> {icdResult.tm.display} — {icdResult.tm.code}</p>
-          <p><strong>Biomedical:</strong> {icdResult.biomed.display} — {icdResult.biomed.code}</p>
+          <p><strong>ICD-11/TM2:</strong> {icdResult.tm.display} — {icdResult.tm.code}</p>
+          <p><strong>Biomedical Terms:</strong> {icdResult.biomed.display} — {icdResult.biomed.code}</p>
         </div>
       )}
     </div>

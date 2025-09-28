@@ -1,4 +1,3 @@
-// src/components/TranslationResults.jsx
 import React from 'react';
 import { FaMapMarkerAlt, FaGlobe, FaStethoscope } from 'react-icons/fa';
 
@@ -34,24 +33,27 @@ function TranslationResults({ namasteResult, icdResult, isLoading }) {
           <div className="card result-card">
             <div className="card-header">
               <FaGlobe color="#4A90E2" />
-              <h3 className="card-title">ICD-11 Codes (International)</h3>
+              {/* --- CHANGE 1: Updated the main card title --- */}
+              <h3 className="card-title">ICD-11 and TM2 Codes (International)</h3>
             </div>
 
-            {/* Traditional Medicine */}
+            {/* Traditional Medicine Section */}
             <div className="icd-section">
               <div className="icd-header">
                 <FaStethoscope color="#50E3C2" />
-                <span className="sub-header-text">Traditional Medicine</span>
+                {/* --- CHANGE 2: Updated the section header --- */}
+                <span className="sub-header-text">Traditional Medicine (TM2)</span>
               </div>
               <p className="code-text-small">{icdResult?.tm?.code || 'N/A'}</p>
               <p className="term-text-small">{icdResult?.tm?.display || 'N/A'}</p>
             </div>
 
-            {/* Biomedical Equivalent */}
+            {/* Biomedical Equivalent Section */}
             <div className="icd-section">
               <div className="icd-header">
                 <FaStethoscope color="#F5A623" />
-                <span className="sub-header-text">Biomedical Equivalent</span>
+                {/* --- CHANGE 3: Updated the section header --- */}
+                <span className="sub-header-text">ICD-11 Biomedical Equivalent</span>
               </div>
               <p className="code-text-small">{icdResult?.biomed?.code || 'N/A'}</p>
               <p className="term-text-small">{icdResult?.biomed?.display || 'N/A'}</p>

@@ -3,7 +3,7 @@ import { FaRobot, FaExclamationCircle } from 'react-icons/fa';
 import { BASE_URL } from "../util.js";
 import axios from "axios";
 
-function AiAssistant({ api, onDiagnosisSelect }) {
+function AiAssistant() {
   const [symptoms, setSymptoms] = useState('');
   const [jobId, setJobId] = useState(null);
   const [jobStatus, setJobStatus] = useState(null);
@@ -36,8 +36,8 @@ function AiAssistant({ api, onDiagnosisSelect }) {
 
   const pollJobStatus = async (id) => {
     try {
-      const response = await api.get(`/namaste-job/${id}`);
-      const { status, prompt, error: jobError } = response.data;
+      const response = await axios.get(`${BASE_URL}/namaste-job/${id}`);
+      const { status, prompt } = response.data;
       setJobStatus(status);
 
       if (status === 'completed') {
@@ -49,13 +49,12 @@ function AiAssistant({ api, onDiagnosisSelect }) {
             setAiResults(normalized);
           } catch (e) {
             console.warn("Prompt not JSON, showing raw:", prompt);
-            setAiResults([{ diagnosis: prompt, NAMASTE_code: "N/A", reasoning: "Raw AI output", ICD_11_TM2_mapping: "N/A", ICD_11_Biomedicine_mapping: "N/A" }]);
+            setAiResults([{ diagnosis: prompt, reasoning: "Raw AI output" }]);
           }
         }
         setIsLoading(false);
         return true;
       }
-
       return false;
     } catch (err) {
       console.error('Polling failed:', err);
@@ -78,9 +77,9 @@ function AiAssistant({ api, onDiagnosisSelect }) {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/create-namaste-job`, // Ensure URL is correct
+        `${BASE_URL}/create-namaste-job`,
         { symptoms },
-        { headers: { "Content-Type": "application/json" } } // Explicitly set JSON header
+        { headers: { "Content-Type": "application/json" } }
       );
       const { job_id, status } = response.data;
       setJobId(job_id);
@@ -115,7 +114,7 @@ function AiAssistant({ api, onDiagnosisSelect }) {
             className="symptom-textarea"
             value={symptoms}
             onChange={(e) => setSymptoms(e.target.value)}
-            placeholder="e.g., Patient has a high fever that comes and goes, severe body ache, joint pain, and a complete loss of appetite."
+            placeholder="e.g., High fever that comes and goes, severe body ache, joint pain, and a complete loss of appetite."
           />
           <button type="submit" className="action-button" disabled={isLoading}>
             Suggest Diagnoses
@@ -137,21 +136,11 @@ function AiAssistant({ api, onDiagnosisSelect }) {
           <h4 className="results-title">AI Suggestions</h4>
           {aiResults.map((result, index) => (
             <div key={index} className="ai-result-card">
-              <div className="ai-result-header">
-                <strong>{result.diagnosis}</strong>
-                <span>(NAMASTE: {result.NAMASTE_code})</span>
-              </div>
-              <p className="ai-reasoning"><strong>Reasoning:</strong> {result.reasoning}</p>
-              <div className="ai-mappings">
-                <span><strong>TM2:</strong> {result.ICD_11_TM2_mapping}</span>
-                <span><strong>Biomed:</strong> {result.ICD_11_Biomedicine_mapping}</span>
-              </div>
-              <button className="select-button" onClick={() => onDiagnosisSelect(result)}>
-                Select Diagnosis
-              </button>
+              <p><strong style={{ fontWeight: "bold" }}>{result.diagnosis}</strong></p>
+              <p><strong>Reasoning:</strong> {result.reasoning}</p>
             </div>
           ))}
-           <button onClick={handleReset} className="action-button secondary reset-ai-btn">
+          <button onClick={handleReset} className="action-button secondary reset-ai-btn">
             Start New Analysis
           </button>
         </div>

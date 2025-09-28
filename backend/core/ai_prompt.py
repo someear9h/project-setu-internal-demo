@@ -14,9 +14,7 @@ disease_list = "\n".join(
 PROMPT_TEMPLATE = f"""
 You are a clinical coding assistant. Given symptoms: "{{symptoms}}",
 suggest top 3 possible diagnoses with:
-- NAMASTE code + description
-- ICD-11 TM2 mapping
-- ICD-11 Biomedicine mapping
+- NAMASTE code provided in the list below + description
 - Short reasoning (2–3 lines)
 - Give diseases only from the following list:
 
