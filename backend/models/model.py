@@ -27,11 +27,3 @@ class Condition(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     raw_fhir = Column(JSON, nullable=True)  # store full fhir resource for audit
 
-class AuditLog(Base):
-    __tablename__ = "audit_logs"
-    id = Column(String, primary_key=True, default=uuid4_str)
-    actor = Column(String)  # user id or system
-    action = Column(String) # create/search/translate/upload
-    resource = Column(String, nullable=True)
-    details = Column(JSON, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)

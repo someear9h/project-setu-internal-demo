@@ -4,6 +4,8 @@ import axios from 'axios';
 import { BASE_URL } from './util.js';
 import AiAssistant from './components/AiAssistant.jsx';
 import BundleUpload from "./components/BundleUpload.jsx";
+import AuditLogs from "./components/AuditLogs.jsx";
+
 
 
 // ------------------
@@ -19,6 +21,7 @@ const FaCheckCircle = (props) => (<svg stroke="currentColor" fill="currentColor"
 function Login({ onLogin, onSwitchToRegister, initialUsername = '', initialPassword = '' }) {
   const [username, setUsername] = useState(initialUsername);
   const [password, setPassword] = useState(initialPassword);
+  const [showLogs, setShowLogs] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -182,8 +185,11 @@ function SearchBar({ searchTerm, onSearchChange, suggestions, onSuggestionSelect
         </ul>
       )}
     </div>
+
   );
 }
+
+
 
 function TranslationResults({ namasteResult, icdResult, isLoading }) {
   return (
@@ -225,6 +231,7 @@ export default function App() {
   const [token, setToken] = useState(localStorage.getItem('authToken'));
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [showLogs, setShowLogs] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [selectedNamaste, setSelectedNamaste] = useState(null);
   const [icdResults, setIcdResults] = useState(null);
@@ -386,6 +393,24 @@ export default function App() {
               />
 
               <AiAssistant api={api} onDiagnosisSelect={handleAiDiagnosisSelect} />
+
+              <div style={{ position: "relative", width: "100%" }}>
+  <button
+    className="login-button"
+    style={{
+      position: "absolute",
+      top: "-500px",
+      right: "-90px",
+    }}
+    onClick={() => setShowLogs(prev => !prev)}
+  >
+    {showLogs ? "Hide Audit Logs" : "Show Audit Logs"}
+  </button>
+</div>
+
+
+
+              {showLogs && <AuditLogs api={api} />}
 
               <TranslationResults namasteResult={selectedNamaste} icdResult={icdResults} isLoading={isLoading} />
               <FhirOutput fhirRecord={fhirRecord} onGenerate={handleGenerateFhir} isVisible={Boolean(icdResults && !isLoading)} />

@@ -6,7 +6,7 @@ import os, csv
 
 from core.config import settings
 from db.database import create_tables
-from routers import auth_router, user_router, terminology_router, condition_router, ai_response_router
+from routers import auth_router, user_router, terminology_router, condition_router, ai_response_router, audit_logging
 
 
 @asynccontextmanager
@@ -87,6 +87,7 @@ app.include_router(terminology_router.router, prefix=settings.API_PREFIX)
 app.include_router(condition_router.router, prefix=settings.API_PREFIX)
 
 app.include_router(ai_response_router.router, prefix=settings.API_PREFIX)
+app.include_router(audit_logging.router, prefix=settings.API_PREFIX)
 
 
 if __name__ == "__main__":
