@@ -111,27 +111,3 @@ def get_icd_entity_details(entity_id: str):
     """
     return get_icd_entity(entity_id)
 
-# @router.get("/who-icd-entity")
-# def get_who_icd_entity(
-#     uri: str,
-#     _user=Depends(get_current_user)
-# ):
-#     try:
-#         entity = fetch_entity(uri)
-#         if "definition" in entity and entity["definition"]:
-#             entity["definition"]["@value"] = strip_html(entity["definition"]["@value"])
-#         return entity
-#     except Exception as e:
-#         raise HTTPException(status_code=502, detail=f"WHO entity fetch failed: {e}")
-
-
-# @router.get("/who-icd-entity")
-# def get_who_icd_entity(
-#     uri: str = Query(..., description="WHO ICD entity URI"),
-#     _user=Depends(get_current_user)
-# ):
-#     try:
-#         data = call_who_icd(uri)
-#         return data
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=str(e))

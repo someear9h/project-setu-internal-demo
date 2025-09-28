@@ -1,6 +1,7 @@
-// src/components/AiAssistant.jsx
 import React, { useState, useEffect } from 'react';
 import { FaRobot, FaExclamationCircle } from 'react-icons/fa';
+import { BASE_URL } from "../util.js";
+import axios from "axios";
 
 function AiAssistant({ api, onDiagnosisSelect }) {
   const [symptoms, setSymptoms] = useState('');
@@ -10,18 +11,21 @@ function AiAssistant({ api, onDiagnosisSelect }) {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Polling effect
   useEffect(() => {
-    let pollInterval;
-    if (jobId && (jobStatus === 'pending' || jobStatus === 'processing')) {
-      pollInterval = setInterval(() => {
-        pollJobStatus(jobId);
-      }, 3000); // Poll every 3 seconds
-    }
-    return () => clearInterval(pollInterval);
-  }, [jobId, jobStatus]);
+    if (!jobId) return;
 
-  // Utility to clean AI response
+    let attempts = 0;
+    const interval = setInterval(async () => {
+      const shouldStop = await pollJobStatus(jobId);
+      attempts++;
+      if (shouldStop || attempts > 20) {
+        clearInterval(interval);
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [jobId]);
+
   const cleanJsonString = (str) => {
     if (!str) return str;
     return str
@@ -36,26 +40,29 @@ function AiAssistant({ api, onDiagnosisSelect }) {
       const { status, prompt, error: jobError } = response.data;
       setJobStatus(status);
 
-      if (status === 'completed' && prompt) {
-        try {
-          // Clean and parse AI response
-          const clean = cleanJsonString(prompt);
-          const parsedPrompt = JSON.parse(clean);
-          setAiResults(parsedPrompt);
-        } catch (e) {
-          console.error("Failed to parse AI prompt JSON:", e, prompt);
-          setError("AI returned an invalid format.");
+      if (status === 'completed') {
+        if (prompt) {
+          try {
+            const clean = cleanJsonString(prompt);
+            const parsedPrompt = JSON.parse(clean);
+            const normalized = Array.isArray(parsedPrompt) ? parsedPrompt : [parsedPrompt];
+            setAiResults(normalized);
+          } catch (e) {
+            console.warn("Prompt not JSON, showing raw:", prompt);
+            setAiResults([{ diagnosis: prompt, NAMASTE_code: "N/A", reasoning: "Raw AI output", ICD_11_TM2_mapping: "N/A", ICD_11_Biomedicine_mapping: "N/A" }]);
+          }
         }
         setIsLoading(false);
-      } else if (status === 'failed') {
-        setError(jobError || 'AI diagnosis failed.');
-        setIsLoading(false);
+        return true;
       }
+
+      return false;
     } catch (err) {
       console.error('Polling failed:', err);
       setError('Failed to get job status.');
       setIsLoading(false);
       setJobId(null);
+      return true;
     }
   };
 
@@ -70,11 +77,16 @@ function AiAssistant({ api, onDiagnosisSelect }) {
     setAiResults([]);
 
     try {
-      const response = await api.post('/create-namaste-job', { symptoms });
+      const response = await axios.post(
+        `${BASE_URL}/create-namaste-job`, // Ensure URL is correct
+        { symptoms },
+        { headers: { "Content-Type": "application/json" } } // Explicitly set JSON header
+      );
       const { job_id, status } = response.data;
       setJobId(job_id);
       setJobStatus(status);
     } catch (err) {
+      console.error(err);
       setError('Failed to start AI diagnosis job.');
       setIsLoading(false);
     }
