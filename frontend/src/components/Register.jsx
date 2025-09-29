@@ -27,6 +27,7 @@ function Register({ onSwitchToLogin, onRegisterSuccess }) {
       setError('All fields are required.');
       return;
     }
+
     // New validation for ABHA ID prefix
     if (!username.toUpperCase().startsWith('ABHA ')) {
       setError('ID should be starting with ABHA.');
@@ -34,22 +35,17 @@ function Register({ onSwitchToLogin, onRegisterSuccess }) {
     }
 
     setIsLoading(true);
-    const payload = {
-      username,
-      full_name: fullName,
-      password,
-    };
+
+    const payload = { username, full_name: fullName, password };
 
     try {
       await axios.post(`${BASE_URL}/register`, payload);
       setSuccess('Registration successful! Redirecting to login...');
 
       // --- New Post-Registration Flow ---
-      // After a short delay, trigger the parent component to handle the switch to a pre-filled login form.
       setTimeout(() => {
         onRegisterSuccess(username, password);
       }, 2000);
-
     } catch (err) {
       if (err.response && err.response.data && err.response.data.detail) {
         setError(err.response.data.detail);
@@ -66,6 +62,13 @@ function Register({ onSwitchToLogin, onRegisterSuccess }) {
     <div className="login-container">
       <h2 className="login-title">Create Account</h2>
       <p className="login-subtitle">Join the Ayush Terminology Service</p>
+
+      {/* 🚀 Render Loading Note */}
+      <div className="mb-4 p-3 bg-yellow-100 border border-yellow-300 rounded text-yellow-800 text-sm">
+        ⏳ Please wait while Render loads the app. <br />
+        Once the server is ready, you can proceed to register.
+      </div>
+
       <form onSubmit={handleSubmit} className="login-form">
         <input
           type="text"
@@ -91,11 +94,26 @@ function Register({ onSwitchToLogin, onRegisterSuccess }) {
         <button type="submit" disabled={isLoading} className="login-button">
           {isLoading ? 'Registering...' : 'Register'}
         </button>
-        {error && <p className="error-message"><FaExclamationCircle style={{ marginRight: '8px' }} />{error}</p>}
-        {success && <p className="success-message"><FaCheckCircle style={{ marginRight: '8px' }} />{success}</p>}
+
+        {error && (
+          <p className="error-message">
+            <FaExclamationCircle style={{ marginRight: '8px' }} />
+            {error}
+          </p>
+        )}
+        {success && (
+          <p className="success-message">
+            <FaCheckCircle style={{ marginRight: '8px' }} />
+            {success}
+          </p>
+        )}
       </form>
+
       <p className="switch-auth-text">
-        Already have an account? <span onClick={onSwitchToLogin} className="switch-auth-link">Login here</span>
+        Already have an account?{' '}
+        <span onClick={onSwitchToLogin} className="switch-auth-link">
+          Login here
+        </span>
       </p>
     </div>
   );
