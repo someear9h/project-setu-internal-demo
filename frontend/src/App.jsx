@@ -94,12 +94,10 @@ function Register({ onSwitchToLogin, onRegisterSuccess }) {
   const [success, setSuccess] = useState('');
   const [showMessage, setShowMessage] = useState(true); // New state for showing message
 
- useEffect(() => {
-  setShowMessage(true); // Show the message when this component mounts
-
-  return () => {
-    setShowMessage(false); // Hide the message when this component unmounts
-  };
+useEffect(() => {
+  setShowMessage(true);
+  const timer = setTimeout(() => setShowMessage(false), 10000); // hide after 5 sec
+  return () => clearTimeout(timer);
 }, []);
 
 
